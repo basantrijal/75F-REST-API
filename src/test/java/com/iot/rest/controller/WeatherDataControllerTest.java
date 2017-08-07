@@ -72,7 +72,7 @@ public class WeatherDataControllerTest {
                 .append(WeatherDataController.WEATHER_DATA_URL)
                 .toString();
 
-        String weatherData= "{ \"deviceId\": \"1234ABCS\", \"timestamp\": \"12 July 2017 8:23:00\", \"temperature\": \"80.0\", \"percentage\": \"40\"}";
+        String weatherData= "{ \"deviceId\": \"1234ABCS\", \"timestamp\": \"12 July 2017 8:23:00\", \"temperature\": \"80.0\", \"humidity\": \"40\"}";
 
         logger.info(weatherData);
 
@@ -99,7 +99,7 @@ public class WeatherDataControllerTest {
                 .toString();
 
         // removed timestamp key value
-        String weatherData= "{ \"deviceId\": \"1234ABCS\", \"temperature\": \"80.0\", \"percentage\": \"40\"}";
+        String weatherData= "{ \"deviceId\": \"1234ABCS\", \"temperature\": \"80.0\", \"humidity\": \"40\"}";
 
         logger.info(weatherData);
 
@@ -133,7 +133,7 @@ public class WeatherDataControllerTest {
                 .andExpect(jsonPath("$.data.weather[0].deviceId", Matchers.is("1234ABCS")))
                 .andExpect(jsonPath("$.data.weather[0].timestamp", Matchers.is("2017-07-12 08:13:00")))
                 .andExpect(jsonPath("$.data.weather[0].temperature", Matchers.is(75.1)))
-                .andExpect(jsonPath("$.data.weather[0].percentage", Matchers.is(37)))
+                .andExpect(jsonPath("$.data.weather[0].humidity", Matchers.is(37)))
                 .andExpect(jsonPath("$.errors").isEmpty())
             ;
     }

@@ -40,11 +40,11 @@ public class WeatherData {
     @Column(name="temperature", nullable = false, precision = 3, scale = 1)
     private BigDecimal temperature;
 
-    @NotNull(message="Percentage is required.")
+    @NotNull(message="Humidity is required.")
     @Min(0)
     @Max(100)
-    @Column(name="percentage", nullable = false)
-    private Integer percentage;
+    @Column(name="humidity", nullable = false)
+    private Integer humidity;
 
     public Long getId() {
         return id;
@@ -78,11 +78,11 @@ public class WeatherData {
         this.temperature = temperature;
     }
 
-    public Integer getPercentage() {
-        return percentage;
+    public Integer getHumidity() {
+        return humidity;
     }
 
-    public void setPercentage(Integer percentage) {
-        this.percentage = percentage;
+    public void setHumidity(Integer humidity) {
+        this.humidity = humidity;
     }
 }
