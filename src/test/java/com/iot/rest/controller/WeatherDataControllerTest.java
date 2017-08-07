@@ -49,7 +49,6 @@ public class WeatherDataControllerTest {
     @Test
     public void testGetWeatherData() throws Exception{
         String getWeatherDataUrl = new StringBuilder()
-                .append("/")
                 .append(WeatherDataController.WEATHER_DATA_URL)
                 .toString();
 
@@ -70,7 +69,6 @@ public class WeatherDataControllerTest {
     public void testCreateWeatherData() throws Exception{
 
         String getWeatherDataUrl = new StringBuilder()
-                .append("/")
                 .append(WeatherDataController.WEATHER_DATA_URL)
                 .toString();
 
@@ -97,7 +95,6 @@ public class WeatherDataControllerTest {
     @Test
     public void testCreateWeatherDataValidation() throws Exception{
         String getWeatherDataUrl = new StringBuilder()
-                .append("/")
                 .append(WeatherDataController.WEATHER_DATA_URL)
                 .toString();
 
@@ -125,7 +122,6 @@ public class WeatherDataControllerTest {
     @Test
     public void testGetWeatherDataWithPayload() throws Exception {
         String getWeatherDataUrl = new StringBuilder()
-                .append("/")
                 .append(WeatherDataController.WEATHER_DATA_URL)
                 .toString();
 

@@ -24,7 +24,7 @@ public class WeatherDataController {
 
     private static final Logger logger = LoggerFactory.getLogger(WeatherDataController.class);
 
-    public static final String WEATHER_DATA_URL = "weather_data";
+    public static final String WEATHER_DATA_URL = "/weather_data";
 
     @Autowired
     WeatherDataRepository weatherDataRepository;
@@ -33,7 +33,7 @@ public class WeatherDataController {
      * List all the weather data of device 1234ABCS
      * @return ResponseEntity
      */
-    @RequestMapping(value="/weather_data", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value=WEATHER_DATA_URL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity getWeatherData(){
         List<WeatherData> weatherData = weatherDataRepository.findByDeviceId("1234ABCS");
         ApiResponse apiResponse = new ApiResponse("SUCCESS", "List of weather data.");
@@ -47,7 +47,7 @@ public class WeatherDataController {
      * @return ResponseEntity
      */
     @RequestMapping(
-            value="/weather_data",
+            value=WEATHER_DATA_URL,
             method = RequestMethod.POST,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
