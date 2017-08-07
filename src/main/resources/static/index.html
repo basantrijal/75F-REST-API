@@ -20,7 +20,7 @@
     }
 </style>
 <body>
-<h1>Temperature and Percentage line graph using D3 js</h1>
+<h1>Temperature and Humidity percentage line graph using D3 js</h1>
 <!-- load the d3.js library -->
 <script data-require="d3@3.5.3" data-semver="3.5.3" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.3/d3.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
@@ -29,6 +29,7 @@
 
     $.ajax({
         url: '/weather_data',
+        contentType: "application/json;charset=utf-8",
         type: 'GET',
         dataType: 'json',
         success: function (response) {
