@@ -33,7 +33,7 @@ public class WeatherDataController {
      * List all the weather data of device 1234ABCS
      * @return ResponseEntity
      */
-    @RequestMapping(value=WEATHER_DATA_URL, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value=WEATHER_DATA_URL, method = RequestMethod.GET, consumes=MediaType.APPLICATION_JSON_UTF8_VALUE , produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity getWeatherData(){
         List<WeatherData> weatherData = weatherDataRepository.findByDeviceId("1234ABCS");
         ApiResponse apiResponse = new ApiResponse("SUCCESS", "List of weather data.");
@@ -49,8 +49,8 @@ public class WeatherDataController {
     @RequestMapping(
             value=WEATHER_DATA_URL,
             method = RequestMethod.POST,
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity postWeatherData(@Valid @RequestBody WeatherData weatherData, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             ApiResponse apiResponse = new ApiResponse("ERROR", "Validation Error.");
@@ -63,6 +63,6 @@ public class WeatherDataController {
         weatherDataRepository.save(weatherData);
         ApiResponse apiResponse = new ApiResponse("SUCCESS", "Weather data insertion completed.");
         apiResponse.setData("weather", weatherData);
-        return new ResponseEntity(weatherData, HttpStatus.CREATED);
+        return new ResponseEntity(apiResponse, HttpStatus.CREATED);
     }
 }

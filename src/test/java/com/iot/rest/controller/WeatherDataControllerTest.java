@@ -17,9 +17,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import javax.transaction.Transactional;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Created by basant on 8/7/17.
@@ -53,6 +52,7 @@ public class WeatherDataControllerTest {
                 .toString();
 
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(getWeatherDataUrl)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andReturn();
 
@@ -116,7 +116,7 @@ public class WeatherDataControllerTest {
     }
 
     /**
-     * Test response body format
+     * Test response body format on get request
      * @throws Exception
      */
     @Test
@@ -125,7 +125,7 @@ public class WeatherDataControllerTest {
                 .append(WeatherDataController.WEATHER_DATA_URL)
                 .toString();
 
-        mockMvc.perform(MockMvcRequestBuilders.get(getWeatherDataUrl))
+        mockMvc.perform(MockMvcRequestBuilders.get(getWeatherDataUrl).contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.status", Matchers.is("SUCCESS")))
@@ -136,6 +136,36 @@ public class WeatherDataControllerTest {
                 .andExpect(jsonPath("$.data.weather[0].humidity", Matchers.is(37)))
                 .andExpect(jsonPath("$.errors").isEmpty())
             ;
+    }
+
+    /**
+     * Test response body format on post request
+     * @throws Exception
+     */
+    @Test
+    public void testCreateWeatherDataWithPayload() throws Exception {
+        String getWeatherDataUrl = new StringBuilder()
+                .append(WeatherDataController.WEATHER_DATA_URL)
+                .toString();
+
+        String weatherData= "{ \"deviceId\": \"1234ABCS\", \"timestamp\": \"12 July 2017 8:23:00\", \"temperature\": \"80.0\", \"humidity\": \"40\"}";
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(getWeatherDataUrl)
+                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE).content(weatherData))
+                .andExpect(jsonPath("$.status", Matchers.is("SUCCESS")))
+                .andExpect(jsonPath("$.message", Matchers.is("Weather data insertion completed.")))
+                .andExpect(jsonPath("$.data.weather.deviceId", Matchers.is("1234ABCS")))
+                .andExpect(jsonPath("$.data.weather.timestamp", Matchers.is("2017-07-12 08:23:00")))
+                .andExpect(jsonPath("$.data.weather.temperature", Matchers.is(80.0)))
+                .andExpect(jsonPath("$.data.weather.humidity", Matchers.is(40)))
+                .andExpect(jsonPath("$.errors").isEmpty())
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+        Assert.assertEquals("failure - expected HTTP status 201", 201, result.getResponse().getStatus());
+        Assert.assertTrue("failure - expected payload to have a value", content.trim().length() > 0);
+
     }
 
 }
